@@ -21,16 +21,16 @@ def main():
     parser.add_argument("-u", "--url", required=True, help="Base URL of the vulnerable application")
     args = parser.parse_args()
 
-    custom_dictionary = []
-    with open(args.wordlist, "r") as wordlist_file:
-        custom_dictionary = [line.strip() for line in wordlist_file]
-
     payloads_url = "https://raw.githubusercontent.com/emadshanab/LFI-Payload-List/master/LFI%20payloads.txt"
     payloads = download_payloads(payloads_url)
 
     if not payloads:
         print("No payloads downloaded. Exiting.")
         return
+
+    custom_dictionary = []
+    with open(args.wordlist, "r") as wordlist_file:
+        custom_dictionary = [line.strip() for line in wordlist_file]
 
     for word in custom_dictionary:
         for payload in payloads:
