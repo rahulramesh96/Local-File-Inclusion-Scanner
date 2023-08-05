@@ -1,7 +1,5 @@
 import requests
 import argparse
-from termcolor import colored
-from tqdm import tqdm
 
 def test_vulnerability(url):
     response = requests.get(url, allow_redirects=False)
@@ -34,13 +32,11 @@ def main():
     with open(args.wordlist, "r") as wordlist_file:
         custom_dictionary = [line.strip() for line in wordlist_file]
 
-    for word in tqdm(custom_dictionary, desc="Progress"):
+    for word in custom_dictionary:
         for payload in payloads:
             fuzzed_url = args.url.replace("FUZZ", f"{word}={payload}")
             if test_vulnerability(fuzzed_url):
-                fuzzed_word = word.split('=')[1]
-                colored_word = colored(fuzzed_word, 'green')
-                print(f"Vulnerable to LFI: Word: {colored_word}, Payload: {payload}, Fuzzed URL: {fuzzed_url}")
+                print(f"Vulnerable to LFI: Word: {word}, Payload: {payload}, Fuzzed URL: {fuzzed_url}")
 
 if __name__ == "__main__":
     main()
