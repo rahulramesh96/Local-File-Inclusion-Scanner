@@ -7,7 +7,7 @@ def test_vulnerability(url):
     return status_code == 200
 
 def download_payloads(url):
-    try
+    try:
         response = requests.get(url)
         response.raise_for_status()
         return response.text.split("\n")
