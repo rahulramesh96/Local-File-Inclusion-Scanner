@@ -17,12 +17,12 @@ def download_payloads(url):
 
 def main():
     parser = argparse.ArgumentParser(description="LFI Vulnerability Scanner")
-    parser.add_argument("-w", "--wordlist", required=True, help="Path to the wordlist file")
+    parser.add_argument("-w", "--wordlist", required=True, help="Wordlist for fuzzing position")
     parser.add_argument("-u", "--url", required=True, help="Base URL of the vulnerable application")
+    parser.add_argument("-p", "--payloadurl", required=True, help="URL of payload list")
     args = parser.parse_args()
 
-    payloads_url = "https://raw.githubusercontent.com/emadshanab/LFI-Payload-List/master/LFI%20payloads.txt"
-    payloads = download_payloads(payloads_url)
+    payloads = download_payloads(args.payloadurl)
 
     if not payloads:
         print("No payloads downloaded. Exiting.")
@@ -33,9 +33,9 @@ def main():
 
     for word in custom_dictionary:
         for payload in payloads:
-            url_with_payload = f"{args.url}?page={word}={payload}"
-            if test_vulnerability(url_with_payload):
-                print(f"Vulnerable to LFI: Word: {word}, Payload: {payload}, URL: {url_with_payload}")
+            full_url = f"{args.url}{word}={payload}"
+            if test_vulnerability(full_url):
+                print(f"Vulnerable to LFI: Word: {word}, Payload: {payload}, URL: {full_url}")
 
 if __name__ == "__main__":
     main()
