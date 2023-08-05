@@ -33,9 +33,9 @@ def main():
 
     for word in custom_dictionary:
         for payload in payloads:
-            full_url = f"{args.url}{word}={payload}"
-            if test_vulnerability(full_url):
-                print(f"Vulnerable to LFI: Word: {word.split('=')[1]}, Payload: {payload}, URL: {full_url}")
+            fuzzed_url = args.url.replace("FUZZ", f"{word}={payload}")
+            if test_vulnerability(fuzzed_url):
+                print(f"Vulnerable to LFI: Word: {word}, Payload: {payload}, Fuzzed URL: {fuzzed_url}")
 
 if __name__ == "__main__":
     main()
