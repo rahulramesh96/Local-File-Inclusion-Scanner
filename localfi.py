@@ -33,9 +33,9 @@ def main():
 
     for word in custom_dictionary:
         for payload in payloads:
-            full_url = f"{args.url}?page={word}={payload}"
-            if test_vulnerability(full_url):
-                print(f"Vulnerable to LFI: Word: {word}, Payload: {payload}, URL: {full_url}")
+            url_with_payload = f"{args.url}?page={word}={payload}"
+            if test_vulnerability(url_with_payload):
+                print(f"Vulnerable to LFI: Word: {word}, Payload: {payload}, URL: {url_with_payload}")
 
 if __name__ == "__main__":
     main()
