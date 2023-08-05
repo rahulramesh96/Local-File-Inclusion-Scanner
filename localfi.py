@@ -19,10 +19,10 @@ def main():
     parser = argparse.ArgumentParser(description="LFI Vulnerability Scanner")
     parser.add_argument("-w", "--wordlist", required=True, help="Wordlist for fuzzing position")
     parser.add_argument("-u", "--url", required=True, help="Base URL of the vulnerable application")
-    parser.add_argument("-p", "--payloadurl", required=True, help="URL of payload list")
     args = parser.parse_args()
 
-    payloads = download_payloads(args.payloadurl)
+    payloads_url = "https://raw.githubusercontent.com/emadshanab/LFI-Payload-List/master/LFI%20payloads.txt"
+    payloads = download_payloads(payloads_url)
 
     if not payloads:
         print("No payloads downloaded. Exiting.")
